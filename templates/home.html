@@ -3,31 +3,132 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Vista Crear Empleado</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+      .table thead th {
+        background-color: #21BDED;
+        color: white;
+      }
+      .table tbody tr {
+        background-color: #21BDED;
+        color: white;
+      }
+      .table tbody tr:nth-child(even) {
+        background-color: #0e8ab8;
+      }
+    </style>
   </head>
   <body>
    <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color: #21BDED;">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="https://img.freepik.com/vector-gratis/dos-hojas-azules_78370-6256.jpg" alt="Logo" style="max-width: 40px;"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Simulador</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Trabajadores</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Liquidaciones</a>
-        </li>
-      </ul>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="https://img.freepik.com/vector-gratis/dos-hojas-azules_78370-6256.jpg" alt="Logo" style="max-width: 40px;"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Simulador</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Trabajadores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Liquidaciones</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <h2>Crear Empleado</h2>
+      <form id="nuevo_empleado">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="id" class="form-label">ID</label>
+            <input type="text" class="form-control" id="id" name="id" required>
+          </div>
+          <div class="col">
+            <label for="nombres" class="form-label">Nombres</label>
+            <input type="text" class="form-control" id="nombres" name="nombres" required>
+          </div>
+          <div class="col">
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+          </div>
+          <div class="col">
+            <label for="rut" class="form-label">Rut</label>
+            <input type="text" class="form-control" id="rut" name="rut" required>
+          </div>
+          <div class="col">
+            <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
+            <input type="text" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+          </div>
+          <div class="col">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" required>
+          </div>
+        </div>
+        
+        <button type="button" class="btn btn-primary" onclick="nuevoEmpleado()">Crear Empleado</button>
+      </form>
+
+      <h2 class="mt-4">Empleados</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">Nombres</th>
+              <th scope="col">Apellidos</th>
+              <th scope="col">Rut</th>
+              <th scope="col">Fecha_Nacimiento</th>
+              <th scope="col">Dirección</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td><input type="text" class="form-control" id="campo-id-1" required></td>
+              <td><input type="text" class="form-control" id="campo-1" required></td>
+              <td><input type="text" class="form-control" id="nombre-1" required></td>
+              <td><input type="text" class="form-control" id="rut-1" required></td>
+              <td><input type="text" class="form-control" id="fecha-nacimiento-1" required></td>
+              <td><input type="text" class="form-control" id="direccion-1" required></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td><input type="text" class="form-control" id="campo-id-2" required></td>
+              <td><input type="text" class="form-control" id="campo-2" required></td>
+              <td><input type="text" class="form-control" id="nombre-2" required></td>
+              <td><input type="text" class="form-control" id="rut-2" required></td>
+              <td><input type="text" class="form-control" id="fecha-nacimiento-2" required></td>
+              <td><input type="text" class="form-control" id="direccion-2" required></td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td><input type="text" class="form-control" id="campo-id-3" required></td>
+              <td><input type="text" class="form-control" id="campo-3" required></td>
+              <td><input type="text" class="form-control" id="nombre-3" required></td>
+              <td><input type="text" class="form-control" id="rut-3" required></td>
+              <td><input type="text" class="form-control" id="fecha-nacimiento-3" required></td>
+              <td><input type="text" class="form-control" id="direccion-3" required></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</nav>
+
+    <script>
+      function nuevoEmpleado() {
+        // Implementar lógica para crear un nuevo empleado
+        console.log('Nuevo empleado creado');
+      }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
