@@ -1,6 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from models.empleados import EmpleadosModel
 
+empleados = EmpleadosModel.get_all()
+
+
 router = APIRouter(prefix="/empleados", tags=["Empleados"])
 
 @router.get("/")

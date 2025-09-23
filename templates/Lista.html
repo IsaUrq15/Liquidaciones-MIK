@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestión de Empleados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #F7F8FC;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #21BDED;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="https://img.freepik.com/vector-gratis/dos-hojas-azules_78370-6256.jpg" alt="Logo" style="max-width: 40px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Simulador</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Trabajadores</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Liquidaciones</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-5">
+  <div class="bg-white rounded p-4 shadow-sm">
+    <h2 class="text-center fw-bold mb-4" style="color: #21BDED;">Gestión de Empleados</h2>
+    <form method="post" action="/empleados/nuevo">
+      <div class="row mb-3">
+        <div class="col-md-6 mb-2">
+          <input type="text" name="nombres" class="form-control" placeholder="Nombres" required />
+        </div>
+        <div class="col-md-6 mb-2">
+          <input type="text" name="apellidos" class="form-control" placeholder="Apellidos" required />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6 mb-2">
+          <input type="text" name="rut" class="form-control" placeholder="RUT" required />
+        </div>
+        <div class="col-md-6 mb-2">
+          <input type="date" name="fecha_nacimiento" class="form-control" required />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6 mb-2">
+          <select name="empresa_id" class="form-select" required>
+            <option value="" disabled selected>Selecciona Empresa</option>
+            {% for empresa in empresas %}
+            <option value="{{ empresa.id }}">{{ empresa.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6 mb-2">
+          <select name="afp_id" class="form-select" required>
+            <option value="" disabled selected>Selecciona AFP</option>
+            {% for afp in afps %}
+            <option value="{{ afp.id }}">{{ afp.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6 mb-2">
+          <select name="salud_id" class="form-select" required>
+            <option value="" disabled selected>Selecciona Salud</option>
+            {% for salud in saluds %}
+            <option value="{{ salud.id }}">{{ salud.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6 mb-2">
+          <select name="afc_id" class="form-select" required>
+            <option value="" disabled selected>Selecciona AFC</option>
+            {% for afc in afcs %}
+            <option value="{{ afc.id }}">{{ afc.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-info text-white">Agregar Empleado</button>
+        </div>
+      </div>
+    </form>
+
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>RUT</th>
+          <th>Fecha Nacimiento</th>
+          <th>Empresa</th>
+          <th>AFP</th>
+          <th>Salud</th>
+          <th>AFC</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for empleado in empleados %}
+        <tr>
+          <td>{{ empleado.nombres }}</td>
+          <td>{{ empleado.apellidos }}</td>
+          <td>{{ empleado.rut }}</td>
+          <td>{{ empleado.fecha_nacimiento }}</td>
+          <td>{{ empleado.empresa_nombre or '' }}</td>
+          <td>{{ empleado.afp_nombre or '' }}</td>
+          <td>{{ empleado.salud_nombre or '' }}</td>
+          <td>{{ empleado.afc_nombre or '' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

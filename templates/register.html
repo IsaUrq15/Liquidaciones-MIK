@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro de Empleado</title>
+    <link rel="icon" href="https://img.freepik.com/vector-gratis/dos-hojas-azules_78370-6256.jpg" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <div class="col-md-9 d-flex align-items-center justify-content-center">
+                <div class="w-75">
+                    <img src="https://img.freepik.com/vector-gratis/dos-hojas-azules_78370-6256.jpg" alt="Logo Finantel Group" class="mb-4" style="max-width: 100px;"/>
+                    <h1 class="mb-4" style="color:#21BDED">Registro de Nuevo Empleado</h1>
+                    <form id="nuevo_empleado" class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombres" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="nombres" name="nombres" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="rut" class="form-label">RUT</label>
+                            <input type="text" class="form-control" id="rut" name="rut" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                        <!-- Se pueden agregar más campos del contrato si se quiere -->
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary w-100" style="background-color: #21BDED; border-color:#21BDED" onclick="nuevoEmpleado()">Registrar Empleado</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3 d-none d-md-block p-0">
+                <div class="h-100 w-100 text-white d-flex justify-content-center align-items-center text-center" style="background: url(https://plus.unsplash.com/premium_photo-1700607978783-709240aa40fb?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) no-repeat center center/cover;">
+                    <div style="margin-left: 10%; margin-right: 10%; background-color: rgba(28, 44, 69, 0.5);" class="p-4 rounded" >
+                        <h2>Finantel Group</h2>
+                        <p>Gestionamos tus liquidaciones y finanzas de manera clara y segura, para que tu sueldo llegue siempre a tiempo y sin complicaciones.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+        function nuevoEmpleado() {
+            // Aquí va la función JS para procesar el formulario
+            console.log('Procesar registro de nuevo empleado');
+        }
+    </script>
+</body>
+</html>
