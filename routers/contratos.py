@@ -1,4 +1,4 @@
-# routers/contratos.py
+
 from core.database import get_connection
 
 def crear_contrato_por_empleado(empleado_id: int) -> bool:
@@ -22,3 +22,4 @@ def crear_contrato_por_empleado(empleado_id: int) -> bool:
     cursor.close()
     cnx.close()
     return True
+
