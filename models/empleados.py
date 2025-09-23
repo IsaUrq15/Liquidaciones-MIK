@@ -1,10 +1,11 @@
 from core.database import get_connection
+from datetime import date
 
 class EmpleadosModel:
     @staticmethod
     def get_all():
         """
-        Recupera todos los empleados registrados.
+        Recupera todos los empleados registrados con sus datos completos.
         """
         cnx = get_connection()
         if not cnx:
@@ -12,14 +13,14 @@ class EmpleadosModel:
         try:
             with cnx.cursor(dictionary=True) as cursor:
                 cursor.execute(
-                    "SELECT id, nombres, apellidos, rut FROM empleados"
+                    "SELECT id, nombres, apellidos, rut, fecha_nacimiento, direccion FROM empleados"
                 )
                 return cursor.fetchall()
         finally:
             cnx.close()
 
     @staticmethod
-    def create(nombres: str, apellidos: str, rut: str):
+    def create(nombres: str, apellidos: str, rut: str, fecha_nacimiento: date, direccion: str):
         """
         Inserta un empleado en la base de datos.
         Retorna el ID generado o None si falla.
@@ -31,10 +32,10 @@ class EmpleadosModel:
             with cnx.cursor() as cursor:
                 cursor.execute(
                     """
-                    INSERT INTO empleados (nombres, apellidos, rut)
-                    VALUES (%s, %s, %s)
+                    INSERT INTO empleados (nombres, apellidos, rut, fecha_nacimiento, direccion)
+                    VALUES (%s, %s, %s, %s, %s)
                     """,
-                    (nombres, apellidos, rut),
+                    (nombres, apellidos, rut, fecha_nacimiento, direccion),
                 )
                 cnx.commit()
                 new_id = cursor.lastrowid
