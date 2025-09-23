@@ -7,6 +7,7 @@ from typing_extensions import Annotated
 from annotated_types import MinLen, MaxLen
 
 
+
 class EmpleadoBase(BaseModel):
     nombres: Annotated[str, MinLen(1)] = Field(..., description="Nombres del empleado")
     apellidos: Annotated[str, MinLen(1)] = Field(..., description="Apellidos del empleado")
