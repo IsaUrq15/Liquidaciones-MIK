@@ -38,8 +38,8 @@ class EmpleadosModel:
                     (nombres, apellidos, rut, fecha_nacimiento, direccion),
                 )
                 cnx.commit()
-                new_id = cursor.lastrowid
-                return new_id
+                last_id = cursor.lastrowid
+                return last_id
         except Exception:
             cnx.rollback()
             return None
