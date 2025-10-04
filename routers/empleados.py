@@ -12,14 +12,15 @@ def list_empleados():
     return empleados
 
 @router.post("/")
-def create_empleado(username: str, email: str):
-    #Campos Obligatorios:
-    campos_obligatorios = [email]
-    if not all(campos_obligatorios):
-        raise HTTPException(status_code=400, detail="Todos los campos son obligatorios")
-        
+def create_empleado( nombres: str, apellidos: str, rut: str, fecha_nacimiento: str, direccion: str,
+    empresa_id: int, tipo_contrato: str, fecha_inicio: str, fecha_termino:str,
+    sueldo_base: int, afp_id: int, salud_id: int, afc_id: int):
+
     #Crear empleado:
-    success = EmpleadosModel.create(username, email)
+    success = EmpleadosModel.create(nombres, apellidos, rut, fecha_nacimiento, direccion,
+    empresa_id, tipo_contrato, fecha_inicio, fecha_termino,
+    sueldo_base, afp_id, salud_id, afc_id)
+    
     if not success:
         raise HTTPException(status_code=500, detail="Empleado could not be created")
     return {"message": "Empleado created successfully"}
