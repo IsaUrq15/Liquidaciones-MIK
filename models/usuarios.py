@@ -1,4 +1,5 @@
 # models/usuarios.py
+
 from core.database import get_connection
 
 class UsuariosModel:
@@ -20,6 +21,21 @@ class UsuariosModel:
         except Exception as e:
             cnx.rollback()
             raise e
+        finally:
+            cursor.close()
+            cnx.close()
+
+    @staticmethod
+    def authenticate(email: str, password: str) -> bool:
+        cnx = get_connection()
+        if not cnx:
+            return False
+        cursor = cnx.cursor(dictionary=True)
+        try:
+            sql = "SELECT * FROM usuarios WHERE email = %s AND password = %s AND disabled = 0"
+            cursor.execute(sql, (email, password))
+            user = cursor.fetchone()
+            return user is not None
         finally:
             cursor.close()
             cnx.close()

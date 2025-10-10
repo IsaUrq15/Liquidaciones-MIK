@@ -45,5 +45,19 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+   
+    {% if error %}
+<div id="error-box" class="alert alert-danger mt-3">{{ error }}</div>
+<script>
+  console.error("{{ error }}");
+  // Limpia el error al actualizar o volver al login
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      document.getElementById("error-box")?.remove();
+    }
+  });
+</script>
+{% endif %}
+  
   </body>
 </html>
