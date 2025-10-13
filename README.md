@@ -3,7 +3,7 @@
 ## 1. Instalación de FastAPI y Uvicorn
 
 ```bash
-pip install fastapi[standard] uvicorn
+pip install fastapi[standard] uvicorn fastapi-mail
 ```
 
 ## 2. Instalación de Conector MySQL
@@ -33,3 +33,9 @@ Ejecuta el script `sql/schema.sql` en tu servidor MySQL para crear las tablas ne
 - Se usará `Jinja2` para las vistas.
 - El script de la base de datos se encuentra en `sql/schema.sql`.
 - Ninja (Jinja2) se utiliza para renderizar las vistas HTML.
+
+# Correr Proyecto
+Iniciar nuestra BD en Wamp o Xamp
+```
+uvicorn main:app --reload
+```

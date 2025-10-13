@@ -17,7 +17,7 @@ class EmpleadoCreate(BaseModel):
     salud_id: int
     afc_id: Optional[int] = None
 
-
+    
 
 class EmpleadoResponse(EmpleadoCreate):
     id: int

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recibo de Pago</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 30px;
+        }
+        h1 {
+            color: #111827;
+        }
+        p {
+            color: #374151;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .logo {
+            margin-top: 20px;
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>&#161;Se ha emitido un recibo de pago!</h1>
+        <hr width="60px" style="height: 5px;background-color: #21BDED; border: none;">
+        <p>
+            Estimado <span class="bold">{{ nombre_completo | e }}</span>, la empresa <span class="bold">{{ empresa | e }}</span> ha emitido su recibo de pago del mes <span class="bold">{{ mes_pago | e }}</span> para su contrato n&#250;mero <span class="bold">{{ contrato_numero | e }}</span>.
+        </p>
+        <p>
+            Se adjunta en el presente correo el documento.
+        </p>
+        <p class="bold">&#161;Gracias por usar nuestro sitio!</p>
+        <p class="footer">Equipo Finantel Group</p>
+        <img src="https://img.freepik.com/vector-gratis/dos-hojas-azules_78370-6256.jpg" alt="Logo" class="logo">
+    </div>
+</body>
+</html>
