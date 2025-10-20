@@ -3,6 +3,10 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from models.empleados import EmpleadosModel
 from models.usuarios import UsuarioModel
+from models.empresas import EmpresasModel
+from models.afp import AFPModel
+from models.afc import AFCModel
+from models.salud import SaludModel
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -49,4 +53,21 @@ async def crear_usuario(
 @router.get("/home", response_class=HTMLResponse)
 def home(request: Request):
     empleados = EmpleadosModel.get_all()
-    return templates.TemplateResponse("home.html", {"request": request, "empleados": empleados})
+    empresas = EmpresasModel.get_all()
+    afps = AFPModel.get_all()
+    saluds = SaludModel.get_all()
+    afcs = AFCModel.get_all()
+
+    print("empresas:", empresas)
+    print("afps:", afps)
+    print("afcs:", afcs)
+    print("saluds:", saluds)
+
+    return templates.TemplateResponse("home.html", {
+        "request": request,
+        "empleados": empleados,
+        "empresas": empresas,
+        "afps": afps,
+        "saluds": saluds,
+        "afcs": afcs
+    })
