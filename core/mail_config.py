@@ -1,8 +1,8 @@
 from fastapi_mail import ConnectionConfig
 
 conf = ConnectionConfig(
-    MAIL_USERNAME="55ed41e16d27f5",
-    MAIL_PASSWORD="9e00a5ffb301e4",
+    MAIL_USERNAME="a61e0fb05fe903",
+    MAIL_PASSWORD="2cfaa939562a58",
     MAIL_FROM="noreply@example.com",
     MAIL_PORT=2525,
     MAIL_SERVER="sandbox.smtp.mailtrap.io",
