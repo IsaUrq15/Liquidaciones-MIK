@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from models.empleados import EmpleadosModel
-from models.usuarios import LoginUser
+from models.usuarios import UsuarioModel
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -17,8 +17,8 @@ async def login_post(
     email: str = Form(...),
     password: str = Form(...)
 ):
-    login_user = LoginUser()
-    if login_user.authenticate_user(email=email, password=password):
+    usuario_model = UsuarioModel()
+    if usuario_model.authenticate_user(email=email, password=password):
         return RedirectResponse(url="/home", status_code=303)
     else:
         return templates.TemplateResponse(
@@ -42,8 +42,8 @@ async def crear_usuario(
     img: str = Form(...),
     full_name: str = Form(...)
 ):
-    login_user = LoginUser()
-    login_user.create(email=email, password=password, img=img, full_name=full_name)
+    usuario_model = UsuarioModel()
+    usuario_model.create(email=email, password=password, img=img, full_name=full_name)
     return RedirectResponse(url="/", status_code=303)
 
 @router.get("/home", response_class=HTMLResponse)

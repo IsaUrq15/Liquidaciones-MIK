@@ -2,7 +2,7 @@ from core.database import get_connection
 from dto.usuario import UsuarioLogin
 import bcrypt
 
-class LoginUser:
+class UsuarioModel:
     def hash_password(self, password: str) -> str:
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
