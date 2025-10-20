@@ -9,8 +9,8 @@ def calcular_liquidacion(sueldo_base: float, horas_extras: float, inm: float = 5
     afp = sueldo_base * 0.10       # 10%
     afc = sueldo_base * 0.006      # 0.6%
     salud = sueldo_base * 0.07     # 7%
-    
-    horas_extras = ((((sueldo_base / 30) / 44) * 1.25) * horas_extras)
+
+    horas_extras = (((((sueldo_base / 30) * 7) / 44) * 1.5) * horas_extras)
 
     total_descuentos = afp + afc + salud
     liquido = total_haberes - total_descuentos
