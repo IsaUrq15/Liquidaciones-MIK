@@ -3,7 +3,6 @@ from dto.empleado import EmpleadoCreate, EmpleadoResponse
 from typing import List
 
 class EmpleadosModel:
-
     @staticmethod
     def get_all() -> List[EmpleadoResponse]:
         cnx = get_connection()
@@ -12,14 +11,23 @@ class EmpleadosModel:
         cursor = cnx.cursor(dictionary=True)
         try:
             cursor.execute(
-                "SELECT e.id, e.nombres, e.apellidos, e.rut, e.fecha_nacimiento, e.direccion, "
-                "c.empresa_id, c.tipo as tipo_contrato, c.fecha_inicio, c.fecha_termino, "
-                "c.sueldo_base, c.afp_id, c.salud_id, c.afc_id "
-                "FROM empleados e "
-                "JOIN contratos c ON e.id = c.empleado_id"
+                """
+                SELECT e.id, e.nombres, e.apellidos, e.rut, e.fecha_nacimiento, e.direccion,
+                       c.empresa_id, c.tipo as tipo_contrato, c.fecha_inicio, c.fecha_termino,
+                       c.sueldo_base, c.afp_id, c.salud_id, c.afc_id,
+                       emp.nombre AS empresa_nombre,
+                       afp.nombre AS afp_nombre,
+                       salud.nombre AS salud_nombre,
+                       afc.nombre AS afc_nombre
+                FROM empleados e
+                JOIN contratos c ON e.id = c.empleado_id
+                JOIN empresas emp ON c.empresa_id = emp.id
+                JOIN afp ON c.afp_id = afp.id
+                JOIN salud ON c.salud_id = salud.id
+                JOIN afc ON c.afc_id = afc.id
+                """
             )
             empleados = cursor.fetchall()
-            # Mapear resultados a modelos Pydantic
             return [EmpleadoResponse(**emp) for emp in empleados]
         finally:
             cursor.close()
@@ -32,7 +40,6 @@ class EmpleadosModel:
             raise Exception("No se pudo conectar a la base de datos")
         cursor = cnx.cursor()
         try:
-            # Insertar en empleados
             sql_empleado = """
                 INSERT INTO empleados (nombres, apellidos, rut, fecha_nacimiento, direccion)
                 VALUES (%s, %s, %s, %s, %s)
@@ -43,7 +50,6 @@ class EmpleadosModel:
             ))
             empleado_id = cursor.lastrowid
 
-            # Insertar en contratos
             sql_contrato = """
                 INSERT INTO contratos (
                     empleado_id, empresa_id, tipo, fecha_inicio, fecha_termino,
