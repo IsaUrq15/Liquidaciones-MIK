@@ -107,6 +107,7 @@ def generar_liquidacion_post(empleado_id: int = Body(..., embed=True)):
         datos["salud_tasa"],
         datos["afc_tasa"]
     )
+    print(resultado)
 
     exito = guardar_liquidacion_en_bd(
         datos["contrato_id"],
@@ -140,6 +141,8 @@ def generar_liquidacion_post(empleado_id: int = Body(..., embed=True)):
         )
     }
 
+    print(resultado["gratificacion"])
+
     generar_liquidacion_pdf(
         nombre=datos["empleado_nombre"],
         rut=datos["rut"],
@@ -147,7 +150,7 @@ def generar_liquidacion_post(empleado_id: int = Body(..., embed=True)):
         datos={
             'sueldo_base': resultado['sueldo_base'],
             'horas_extras': resultado.get('horas_extra', 0),
-            'gratificacion': resultado.get('gratificacion', 0),
+            'gratificacion': resultado.get('gratificacion'),
             'total_imponible': resultado.get('total_imponible', resultado['sueldo_base']),
             'afp': resultado['descuentos']['afp'],
             'salud': resultado['descuentos']['salud'],

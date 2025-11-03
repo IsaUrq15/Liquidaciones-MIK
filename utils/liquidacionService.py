@@ -7,6 +7,8 @@ def calcular_liquidacion_simple(sueldo_base: float, horas_extras: float, inm: fl
     tope_gratificacion = (4.75 * inm) / 12
     gratificacion = min(sueldo_base * 0.25, tope_gratificacion)
 
+    print(gratificacion)
+
     horas_extras_calc = (((((sueldo_base / 30) * 7) / 44) * 1.5) * horas_extras)
     total_haberes = sueldo_base + horas_extras_calc + gratificacion
 
@@ -68,7 +70,11 @@ def obtener_datos_empleado(empleado_id):
     return resultado
 
 
-def calcular_liquidacion(sueldo_base, afp_tasa, salud_tasa, afc_tasa):
+def calcular_liquidacion(sueldo_base, afp_tasa, salud_tasa, afc_tasa, inm=529000):
+    tope_gratificacion = (4.75 * inm) / 12
+    gratificacion = min(sueldo_base * 0.25, tope_gratificacion)
+
+    print(gratificacion)
     descuentos = {
         'afp': sueldo_base * afp_tasa / 100,
         'salud': sueldo_base * salud_tasa / 100,
@@ -82,7 +88,7 @@ def calcular_liquidacion(sueldo_base, afp_tasa, salud_tasa, afc_tasa):
         'total_descuentos': total_descuentos,
         'sueldo_liquido': sueldo_liquido,
         'horas_extra': 0,
-        'gratificacion': 0,
+        'gratificacion': gratificacion,
         'total_imponible': sueldo_base
     }
 
