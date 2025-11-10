@@ -118,11 +118,13 @@ def obtener_datos_empleado(empleado_id: int) -> dict:
 def calcular_liquidacion(datos: dict, horas_extra: int = 0, dias_trabajados: int = 30) -> dict:
     
     try:
+        sueldo_base_fijo = float(datos['sueldo_base'])
+
         # Sueldo proporcional
         sueldo_base = float(datos['sueldo_base']) / 30 * dias_trabajados
         
         # Horas extras
-        monto_horas_extra = (((((sueldo_base / 30) * 7) / 44) * 1.5) * horas_extra)
+        monto_horas_extra = (((((sueldo_base_fijo / 30) * 7) / 44) * 1.5) * horas_extra)
         
         # Imponible sin gratificación
         imponible_sin_gratificacion = sueldo_base + monto_horas_extra
@@ -160,7 +162,7 @@ def calcular_liquidacion(datos: dict, horas_extra: int = 0, dias_trabajados: int
         }
     
     except Exception as e:
-        raise
+        print(e)
 
 # GUARDA LA LIQUICACION EN LA BD
 
