@@ -5,8 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gestión de Empleados</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .nav-tab {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #e9ecef;
+            border: none;
+            margin: 5px 2px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #21BDED;
+        }
+        .nav-tab.active {
+            background-color: #21BDED;
+            color: white;
+        }
+        .tab-content-section {
+            display: none;
+        }
+        .tab-content-section.active {
+            display: block;
+        }
+        .form-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #21BDED;
+        }
+    </style>
 </head>
 <body style="background-color: #F7F8FC;">
+
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #21BDED;">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
@@ -17,108 +48,621 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Simulador</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Trabajadores</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Liquidaciones</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
 <div class="container my-5">
-  <div class="bg-white rounded p-4 shadow-sm">
-    <h2 class="text-center fw-bold mb-4" style="color: #21BDED;">Gestión de Empleados</h2>
-    <form method="post" action="/empleados/nuevo">
-      <div class="row mb-3">
-        <div class="col-md-6 mb-2">
-          <input type="text" name="nombres" class="form-control" placeholder="Nombres" required />
-        </div>
-        <div class="col-md-6 mb-2">
-          <input type="text" name="apellidos" class="form-control" placeholder="Apellidos" required />
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6 mb-2">
-          <input type="text" name="rut" class="form-control" placeholder="RUT" required />
-        </div>
-        <div class="col-md-6 mb-2">
-          <input type="date" name="fecha_nacimiento" class="form-control" required />
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6 mb-2">
-          <select name="empresa_id" class="form-select" required>
-            <option value="" disabled selected>Selecciona Empresa</option>
-            {% for empresa in empresas %}
-            <option value="{{ empresa.id }}">{{ empresa.nombre }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-md-6 mb-2">
-          <select name="afp_id" class="form-select" required>
-            <option value="" disabled selected>Selecciona AFP</option>
-            {% for afp in afps %}
-            <option value="{{ afp.id }}">{{ afp.nombre }}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6 mb-2">
-          <select name="salud_id" class="form-select" required>
-            <option value="" disabled selected>Selecciona Salud</option>
-            {% for salud in saluds %}
-            <option value="{{ salud.id }}">{{ salud.nombre }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-md-6 mb-2">
-          <select name="afc_id" class="form-select" required>
-            <option value="" disabled selected>Selecciona AFC</option>
-            {% for afc in afcs %}
-            <option value="{{ afc.id }}">{{ afc.nombre }}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-12 text-end">
-          <button type="submit" class="btn btn-info text-white">Agregar Empleado</button>
-        </div>
-      </div>
-    </form>
+  <!-- TABS DE NAVEGACIÓN -->
+  <div class="mb-4 text-center">
+    <button class="nav-tab active" onclick="mostrarTab('liquidaciones')"> Generar Liquidaciones</button>
+    <button class="nav-tab" onclick="mostrarTab('empleados')"> Crear Empleados</button>
+  </div>
 
-    <table class="table table-striped mt-4">
-      <thead>
-        <tr>
-          <th>Nombres</th>
-          <th>Apellidos</th>
-          <th>RUT</th>
-          <th>Fecha Nacimiento</th>
-          <th>Empresa</th>
-          <th>AFP</th>
-          <th>Salud</th>
-          <th>AFC</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for empleado in empleados %}
-        <tr>
-          <td>{{ empleado.nombres }}</td>
-          <td>{{ empleado.apellidos }}</td>
-          <td>{{ empleado.rut }}</td>
-          <td>{{ empleado.fecha_nacimiento }}</td>
-          <td>{{ empleado.empresa_nombre or '' }}</td>
-          <td>{{ empleado.afp_nombre or '' }}</td>
-          <td>{{ empleado.salud_nombre or '' }}</td>
-          <td>{{ empleado.afc_nombre or '' }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- ============================================ -->
+  <!-- TAB 1: GENERAR LIQUIDACIONES -->
+  <!-- ============================================ -->
+  <div id="tab-liquidaciones" class="tab-content-section active">
+    <div class="bg-white rounded p-4 shadow-sm">
+      <h2 class="text-center fw-bold mb-4" style="color: #21BDED;"> Generador de Liquidaciones</h2>
+      
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead style="background-color: #21BDED; color: white;">
+            <tr>
+              <th>ID</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>RUT</th>
+              <th>Empresa</th>
+              <th>AFP</th>
+              <th>Salud</th>
+              <th>Tipo Contrato</th>
+              <th>Sueldo Base</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-empleados">
+            <tr>
+              <td colspan="10" class="text-center text-muted">Cargando empleados...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TAB 2: CREAR EMPLEADOS -->
+  <!-- ============================================ -->
+  <div id="tab-empleados" class="tab-content-section">
+    <div class="bg-white rounded p-4 shadow-sm">
+      <h2 class="text-center fw-bold mb-4" style="color: #21BDED;"> Crear Nuevo Empleado</h2>
+      
+      <div class="form-section">
+        <form id="form-crear-empleado">
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <label for="nombres" class="form-label"><strong>Nombres</strong></label>
+              <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Juan" required>
+              <small class="text-danger" id="error-nombres"></small>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="apellidos" class="form-label"><strong>Apellidos</strong></label>
+              <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Pérez Soto" required>
+              <small class="text-danger" id="error-apellidos"></small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-4 mb-3">
+              <label for="rut" class="form-label"><strong>RUT</strong></label>
+              <input type="text" class="form-control" id="rut" name="rut" placeholder="12.345.678-9" required>
+              <small class="text-danger" id="error-rut"></small>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="fecha_nacimiento" class="form-label"><strong>Fecha de Nacimiento</strong></label>
+              <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+              <small class="text-danger" id="error-fecha"></small>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="direccion" class="form-label"><strong>Dirección</strong></label>
+              <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Calle 123" required>
+              <small class="text-danger" id="error-direccion"></small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-3 mb-3">
+              <label for="empresa_id" class="form-label"><strong>Empresa</strong></label>
+              <select class="form-select" id="empresa_id" name="empresa_id" required>
+                <option value="">Selecciona empresa...</option>
+              </select>
+              <small class="text-danger" id="error-empresa"></small>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="afp_id" class="form-label"><strong>AFP</strong></label>
+              <select class="form-select" id="afp_id" name="afp_id" required>
+                <option value="">Selecciona AFP...</option>
+              </select>
+              <small class="text-danger" id="error-afp"></small>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="salud_id" class="form-label"><strong>Salud</strong></label>
+              <select class="form-select" id="salud_id" name="salud_id" required>
+                <option value="">Selecciona salud...</option>
+              </select>
+              <small class="text-danger" id="error-salud"></small>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="tipo_contrato" class="form-label"><strong>Tipo Contrato</strong></label>
+              <select class="form-select" id="tipo_contrato" name="tipo_contrato" required>
+                <option value="">Selecciona tipo...</option>
+                <option value="INDEFINIDO">INDEFINIDO</option>
+                <option value="PLAZO_FIJO">PLAZO FIJO</option>
+              </select>
+              <small class="text-danger" id="error-tipo"></small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <label for="fecha_ingreso" class="form-label"><strong>Fecha de Ingreso</strong></label>
+              <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required>
+              <small class="text-danger" id="error-fecha-ingreso"></small>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="sueldo_base" class="form-label"><strong>Sueldo Base</strong></label>
+              <input type="number" class="form-control" id="sueldo_base" name="sueldo_base" placeholder="1200000" min="0" required>
+              <small class="text-danger" id="error-sueldo"></small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 text-end">
+              <button type="button" class="btn btn-secondary me-2" onclick="limpiarFormulario()">Limpiar</button>
+              <button type="button" class="btn btn-primary" id="btnCrear" onclick="crearEmpleado()">
+                <span id="btn-text">Crear Empleado</span>
+                <span id="btn-spinner" style="display: none;">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Creando...
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Lista de empleados creados -->
+      <h3 class="mt-5 mb-3" style="color: #21BDED;"> Registro de Empleados</h3>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead style="background-color: #21BDED; color: white;">
+            <tr>
+              <th>ID</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>RUT</th>
+              <th>Empresa</th>
+              <th>AFP</th>
+              <th>Salud</th>
+              <th>Tipo Contrato</th>
+              <th>Sueldo Base</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-empleados-lista">
+            <tr>
+              <td colspan="9" class="text-center text-muted">Cargando empleados...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA GENERAR LIQUIDACIÓN -->
+<div class="modal fade" id="modalLiquidacion" tabindex="-1" aria-labelledby="modalLiquidacionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #21BDED;">
+        <h5 class="modal-title text-white" id="modalLiquidacionLabel">Generar Liquidación</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form-liquidacion">
+          <input type="hidden" id="empleado_id" name="empleado_id">
+          <input type="hidden" id="nombre_empleado" name="nombre_empleado">
+          <input type="hidden" id="rut_empleado" name="rut_empleado">
+          <input type="hidden" id="tipo_contrato_modal" name="tipo_contrato">
+
+          <div class="mb-3">
+            <label for="empleado_info" class="form-label"><strong>Empleado</strong></label>
+            <input type="text" class="form-control" id="empleado_info" disabled>
+          </div>
+
+          <div class="mb-3">
+            <label for="horas_extras" class="form-label"><strong>Horas Extras</strong></label>
+            <input type="number" class="form-control" id="horas_extras" name="horas_extras" placeholder="Ej: 10.5" min="0" step="0.5" required>
+            <small class="text-muted">Ingresa el número de horas extras (pueden ser decimales)</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="dias_trabajados" class="form-label"><strong>Días Trabajados</strong></label>
+            <input type="number" class="form-control" id="dias_trabajados" name="dias_trabajados" placeholder="Ej: 22" min="1" max="30" required>
+            <small class="text-muted">Ingresa los días laborados en el mes (1-30)</small>
+          </div>
+
+          <div class="alert alert-info" role="alert">
+            <strong> Información:</strong>
+            <ul style="margin: 5px 0 0 20px; font-size: 0.9rem;">
+              <li>Sueldo proporcional según días trabajados</li>
+              <li>Valor de horas extras</li>
+              <li>Gratificación</li>
+              <li>Descuentos: AFP, Salud, AFC</li>
+              <li>Sueldo líquido final</li>
+            </ul>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="generarLiquidacion()">Generar y Descargar PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Alertas -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11;">
+  <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+    <strong> Éxito!</strong> <span id="success-message"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+    <strong> Error!</strong> <span id="error-message"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // ========== INICIALIZAR PÁGINA ==========
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log(' Página cargada');
+    cargarEmpresas();
+    cargarAFPs();
+    cargarSalud();
+    cargarEmpleados();
+  });
+
+  // ========== NAVEGACIÓN DE TABS ==========
+  function mostrarTab(tabName) {
+    // Ocultar todos los tabs
+    document.querySelectorAll('.tab-content-section').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    
+    // Desactivar todos los botones
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Mostrar el tab seleccionado
+    document.getElementById('tab-' + tabName).classList.add('active');
+    event.target.classList.add('active');
+    
+    // Recargar empleados
+    setTimeout(() => cargarEmpleados(), 100);
+  }
+
+  // ========== CARGAR DATOS DINÁMICAMENTE ==========
+  function cargarEmpresas() {
+    fetch('/api/v1/empleados/data/empresas')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Empresas cargadas:', data);
+        const select = document.getElementById('empresa_id');
+        select.innerHTML = '<option value="">Selecciona empresa...</option>';
+        data.forEach(emp => {
+          const option = document.createElement('option');
+          option.value = emp.id;
+          option.textContent = emp.nombre;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Error al cargar empresas:', error);
+        mostrarError('Error al cargar empresas');
+      });
+  }
+
+  function cargarAFPs() {
+    fetch('/api/v1/empleados/data/afps')
+      .then(response => response.json())
+      .then(data => {
+        console.log('AFPs cargadas:', data);
+        const select = document.getElementById('afp_id');
+        select.innerHTML = '<option value="">Selecciona AFP...</option>';
+        data.forEach(afp => {
+          const option = document.createElement('option');
+          option.value = afp.id;
+          option.textContent = afp.nombre;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Error al cargar AFPs:', error);
+        mostrarError('Error al cargar AFPs');
+      });
+  }
+
+  function cargarSalud() {
+    fetch('/api/v1/empleados/data/salud')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Salud cargada:', data);
+        const select = document.getElementById('salud_id');
+        select.innerHTML = '<option value="">Selecciona salud...</option>';
+        data.forEach(s => {
+          const option = document.createElement('option');
+          option.value = s.id;
+          option.textContent = s.nombre;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Error al cargar salud:', error);
+        mostrarError('Error al cargar opciones de salud');
+      });
+  }
+
+  // ========== CARGAR EMPLEADOS ==========
+  function cargarEmpleados() {
+    console.log('Cargando empleados...');
+    fetch('/api/v1/empleados/')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Empleados obtenidos:', data);
+        
+        // Tabla principal (tab liquidaciones)
+        const tabla = document.getElementById('tabla-empleados');
+        // Tabla lista (tab empleados)
+        const tablaLista = document.getElementById('tabla-empleados-lista');
+        
+        if (!data || data.length === 0) {
+          tabla.innerHTML = '<tr><td colspan="10" class="text-center text-muted">No hay empleados registrados</td></tr>';
+          tablaLista.innerHTML = '<tr><td colspan="9" class="text-center text-muted">No hay empleados registrados</td></tr>';
+          return;
+        }
+
+        // Llenar tabla principal con botón de liquidación
+        tabla.innerHTML = data.map(emp => `
+          <tr>
+            <td>${emp.id}</td>
+            <td>${emp.nombres}</td>
+            <td>${emp.apellidos}</td>
+            <td>${emp.rut}</td>
+            <td>${emp.empresa_nombre || 'N/A'}</td>
+            <td>${emp.afp_nombre || 'N/A'}</td>
+            <td>${emp.salud_nombre || 'N/A'}</td>
+            <td><span class="badge bg-info">${emp.tipo_contrato || 'N/A'}</span></td>
+            <td>$${emp.sueldo_base ? emp.sueldo_base.toLocaleString() : 'N/A'}</td>
+            <td>
+              <button 
+                type="button" 
+                class="btn btn-primary btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLiquidacion"
+                onclick="abrirModalLiquidacion(${emp.id}, '${emp.nombres} ${emp.apellidos}', '${emp.rut}', '${emp.tipo_contrato}')">
+                Generar Liquidación
+              </button>
+            </td>
+          </tr>
+        `).join('');
+
+        // Llenar tabla lista sin botón
+        tablaLista.innerHTML = data.map(emp => `
+          <tr>
+            <td>${emp.id}</td>
+            <td>${emp.nombres}</td>
+            <td>${emp.apellidos}</td>
+            <td>${emp.rut}</td>
+            <td>${emp.empresa_nombre || 'N/A'}</td>
+            <td>${emp.afp_nombre || 'N/A'}</td>
+            <td>${emp.salud_nombre || 'N/A'}</td>
+            <td><span class="badge bg-info">${emp.tipo_contrato || 'N/A'}</span></td>
+            <td>$${emp.sueldo_base ? emp.sueldo_base.toLocaleString() : 'N/A'}</td>
+          </tr>
+        `).join('');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('tabla-empleados').innerHTML = '<tr><td colspan="10" class="text-center text-danger">Error al cargar empleados</td></tr>';
+      });
+  }
+
+  // ========== VALIDACIONES ==========
+
+  function validarFormulario() {
+    let valido = true;
+    document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+    if (!document.getElementById('nombres').value.trim()) {
+      document.getElementById('error-nombres').textContent = 'Los nombres son requeridos';
+      valido = false;
+    }
+
+    if (!document.getElementById('apellidos').value.trim()) {
+      document.getElementById('error-apellidos').textContent = 'Los apellidos son requeridos';
+      valido = false;
+    }
+
+    const rut = document.getElementById('rut').value.trim();
+    if (!rut || !validarRUT(rut)) {
+      document.getElementById('error-rut').textContent = 'RUT inválido (formato: 12.345.678-9)';
+      valido = false;
+    }
+
+    if (!document.getElementById('sueldo_base').value || parseInt(document.getElementById('sueldo_base').value) <= 0) {
+      document.getElementById('error-sueldo').textContent = 'El sueldo base debe ser mayor a 0';
+      valido = false;
+    }
+
+    if (!document.getElementById('empresa_id').value) {
+      document.getElementById('error-empresa').textContent = 'Selecciona una empresa';
+      valido = false;
+    }
+
+    if (!document.getElementById('afp_id').value) {
+      document.getElementById('error-afp').textContent = 'Selecciona una AFP';
+      valido = false;
+    }
+
+    if (!document.getElementById('salud_id').value) {
+      document.getElementById('error-salud').textContent = 'Selecciona una salud';
+      valido = false;
+    }
+
+    if (!document.getElementById('fecha_nacimiento').value) {
+      document.getElementById('error-fecha').textContent = 'La fecha de nacimiento es requerida';
+      valido = false;
+    }
+
+    if (!document.getElementById('fecha_ingreso').value) {
+      document.getElementById('error-fecha-ingreso').textContent = 'La fecha de inicio del contrato es requerida';
+      valido = false;
+    }
+
+    if (!document.getElementById('tipo_contrato').value) {
+      document.getElementById('error-tipo').textContent = 'Selecciona un tipo de contrato';
+      valido = false;
+    }
+
+    return valido;
+  }
+
+  function validarRUT(rut) {
+    const rutRegex = /^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$|^\d{8}-[\dkK]$/;
+    return rutRegex.test(rut);
+  }
+
+  // ========== CREAR EMPLEADO ==========
+  function crearEmpleado() {
+    if (!validarFormulario()) return;
+
+    const btnCrear = document.getElementById('btnCrear');
+    btnCrear.disabled = true;
+    document.getElementById('btn-text').style.display = 'none';
+    document.getElementById('btn-spinner').style.display = 'inline';
+
+    const datos = {
+      nombres: document.getElementById('nombres').value,
+      apellidos: document.getElementById('apellidos').value,
+      rut: document.getElementById('rut').value,
+      fecha_nacimiento: document.getElementById('fecha_nacimiento').value,
+      direccion: document.getElementById('direccion').value,
+      empresa_id: parseInt(document.getElementById('empresa_id').value),
+      afp_id: parseInt(document.getElementById('afp_id').value),
+      salud_id: parseInt(document.getElementById('salud_id').value),
+      tipo_contrato: document.getElementById('tipo_contrato').value,
+      fecha_ingreso: document.getElementById('fecha_ingreso').value,
+      sueldo_base: parseInt(document.getElementById('sueldo_base').value)
+    };
+
+    fetch('/api/v1/empleados/crear', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message || data.id) {
+        mostrarExito('Empleado creado exitosamente');
+        limpiarFormulario();
+        cargarEmpleados();
+      } else {
+        mostrarError(data.detail || 'Error al crear empleado');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      mostrarError('Error al conectar con el servidor');
+    })
+    .finally(() => {
+      btnCrear.disabled = false;
+      document.getElementById('btn-text').style.display = 'inline';
+      document.getElementById('btn-spinner').style.display = 'none';
+    });
+  }
+
+  // ========== ABRIR MODAL CON DATOS ==========
+  function abrirModalLiquidacion(empleadoId, nombre, rut, tipoContrato) {
+    console.log('Abriendo modal para:', empleadoId, nombre);
+    document.getElementById('empleado_id').value = empleadoId;
+    document.getElementById('nombre_empleado').value = nombre;
+    document.getElementById('rut_empleado').value = rut;
+    document.getElementById('tipo_contrato_modal').value = tipoContrato;
+    document.getElementById('empleado_info').value = nombre + ' (' + rut + ')';
+    document.getElementById('horas_extras').value = '';
+    document.getElementById('dias_trabajados').value = '';
+  }
+
+  // ========== GENERAR LIQUIDACIÓN ==========
+  function generarLiquidacion() {
+    const empleadoId = document.getElementById('empleado_id').value;
+    const horasExtras = parseFloat(document.getElementById('horas_extras').value);
+    const diasTrabajados = parseInt(document.getElementById('dias_trabajados').value);
+
+    console.log('Generando liquidación:', { empleadoId, horasExtras, diasTrabajados });
+
+    if (isNaN(horasExtras) || horasExtras < 0) {
+      alert('Las horas extras deben ser un número válido');
+      return;
+    }
+
+    if (isNaN(diasTrabajados) || diasTrabajados < 1 || diasTrabajados > 30) {
+      alert('Los días trabajados deben ser un número entre 1 y 30');
+      return;
+    }
+
+    const btnGenerar = event.target;
+    btnGenerar.disabled = true;
+    btnGenerar.innerText = 'Generando...';
+
+    fetch('/api/v1/liquidaciones/{empleado_id}', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        empleado_id: parseInt(empleadoId),
+        horas_extras: horasExtras,
+        dias_trabajados: diasTrabajados
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(err => {
+          throw new Error(err.detail || 'Error en el servidor');
+        }).catch(() => {
+          throw new Error('Error en la respuesta del servidor');
+        });
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'liquidacion_' + document.getElementById('nombre_empleado').value.replace(/ /g, '_') + '.pdf';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      
+      mostrarExito('Liquidación generada exitosamente');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      mostrarError('Error al generar liquidación: ' + error.message);
+    })
+    .finally(() => {
+      btnGenerar.disabled = false;
+      btnGenerar.innerText = 'Generar y Descargar PDF';
+      
+      const modalElement = document.getElementById('modalLiquidacion');
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    });
+  }
+
+  // ========== UTILIDADES ==========
+  function limpiarFormulario() {
+    document.getElementById('form-crear-empleado').reset();
+    document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+  }
+
+  function mostrarExito(mensaje) {
+    const alert = document.getElementById('success-alert');
+    document.getElementById('success-message').textContent = mensaje;
+    alert.classList.remove('d-none');
+    setTimeout(() => {
+      alert.classList.add('d-none');
+    }, 4000);
+  }
+
+  function mostrarError(mensaje) {
+    const alert = document.getElementById('error-alert');
+    document.getElementById('error-message').textContent = mensaje;
+    alert.classList.remove('d-none');
+    setTimeout(() => {
+      alert.classList.add('d-none');
+    }, 4000);
+  }
+</script>
+
 </body>
 </html>
