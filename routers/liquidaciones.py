@@ -1,4 +1,4 @@
-# routers/liquidaciones.py - VERSION LIMPIA SIN LOGS
+# routers/liquidaciones.py
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
@@ -17,14 +17,14 @@ logging.getLogger("services.pdfService").setLevel(logging.CRITICAL)
 router = APIRouter(prefix="/liquidaciones", tags=["liquidaciones"])
 
 
-# ========== MODELOS ==========
+#  MODELOS 
 class generar_liquidacion_empleado_id(BaseModel):
     empleado_id: int
     horas_extras: float = 0
     dias_trabajados: int = 30
 
 
-# ========== ENDPOINTS ==========
+#  ENDPOINTS 
 
 @router.post("/{empleado_id}")
 def generar_liquidacion_empleado_id(liquidacion: generar_liquidacion_empleado_id):

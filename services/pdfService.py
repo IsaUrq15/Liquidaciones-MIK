@@ -1,4 +1,4 @@
-# services/pdfService.py - DISEÑO PROFESIONAL CON SUELDO BASE ORIGINAL Y PROPORCIONAL
+# services/pdfService.py 
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -8,24 +8,11 @@ import os
 
 
 def generar_liquidacion_pdf(nombre, rut, tipo_contrato, datos, empresa, sueldo_base_original, dias_trabajados, output_path):
-    """
-    Genera PDF de liquidación con diseño profesional
-    
-    Parámetros:
-    - nombre: Nombre del trabajador
-    - rut: RUT del trabajador
-    - tipo_contrato: Tipo de contrato (INDEFINIDO, PLAZO_FIJO)
-    - datos: Dict con sueldo_base, horas_extra, gratificacion, afp, salud, afc, total_descuentos, liquido
-    - empresa: Dict con nombre, rut, direccion, telefono, logo_path
-    - sueldo_base_original: Sueldo base sin proporcionar
-    - dias_trabajados: Días trabajados en el mes
-    - output_path: Ruta donde guardar el PDF
-    """
     
     c = canvas.Canvas(output_path, pagesize=A4)
     width, height = A4
 
-    # ========== LOGO Y DATOS DE LA EMPRESA ==========
+    #  LOGO Y DATOS DE LA EMPRESA 
     try:
         c.drawImage(empresa["logo_path"], 40, 750, width=80, height=80, preserveAspectRatio=True)
     except:
@@ -43,7 +30,7 @@ def generar_liquidacion_pdf(nombre, rut, tipo_contrato, datos, empresa, sueldo_b
     c.setLineWidth(1)
     c.line(40, 735, width - 40, 735)
 
-    # ========== DATOS DEL TRABAJADOR ==========
+    #  DATOS DEL TRABAJADOR 
     y_trabajador = 640
 
     c.setFillColor(colors.HexColor("#F0F0F0"))
@@ -59,7 +46,7 @@ def generar_liquidacion_pdf(nombre, rut, tipo_contrato, datos, empresa, sueldo_b
     c.drawString(50, y_trabajador + 24, f"RUT: {rut}")
     c.drawString(50, y_trabajador + 6, f"Tipo de contrato: {tipo_contrato}")
 
-    # ========== INFORMACIÓN DE PERÍODOS ==========
+    #  INFORMACIÓN DE PERÍODOS 
     """y = y_trabajador - 50
     c.setFont("Helvetica-Bold", 9)
     c.drawString(50, y, f"Período: {datetime.now().strftime('%B %Y').upper()}")
@@ -69,7 +56,7 @@ def generar_liquidacion_pdf(nombre, rut, tipo_contrato, datos, empresa, sueldo_b
         c.drawString(50, y - 30, f"Sueldo Base (Original): ${sueldo_base_original:,.0f}".replace(",", "."))
         c.drawString(50, y - 45, f"Sueldo Base (Proporcional {dias_trabajados} días): ${datos['sueldo_base']:,.0f}".replace(",", "."))"""
 
-    # ========== DETALLE DE HABERES ==========
+    #  DETALLE DE HABERES 
     y = y_trabajador - 50
     c.setFillColor(colors.HexColor("#4A4A4A"))
     c.setStrokeColor(colors.HexColor("#CCCCCC"))
@@ -121,7 +108,7 @@ def generar_liquidacion_pdf(nombre, rut, tipo_contrato, datos, empresa, sueldo_b
     altura_tabla_haberes = y_inicio_haberes - y_fin_haberes
     c.rect(40, y_fin_haberes, width - 80, altura_tabla_haberes, fill=False, stroke=True)
 
-    # ========== DETALLE DE DESCUENTOS ==========
+    #  DETALLE DE DESCUENTOS 
     y -= 70
     c.setFillColor(colors.HexColor("#4A4A4A"))
     c.setStrokeColor(colors.HexColor("#CCCCCC"))
@@ -173,7 +160,7 @@ def generar_liquidacion_pdf(nombre, rut, tipo_contrato, datos, empresa, sueldo_b
     altura_tabla_descuentos = y_inicio_descuentos - y_fin_descuentos
     c.rect(40, y_fin_descuentos, width - 80, altura_tabla_descuentos, fill=False, stroke=True)
 
-    # ========== TOTAL A PAGAR ==========
+    #  TOTAL A PAGAR 
     y -= 70
     c.setFillColor(colors.HexColor("#4A4A4A"))
     c.setStrokeColor(colors.HexColor("#CCCCCC"))
@@ -204,7 +191,7 @@ def generar_liquidacion_pdf(nombre, rut, tipo_contrato, datos, empresa, sueldo_b
     altura_tabla_total = y_inicio_total - y_fin_total
     c.rect(40, y_fin_total, width - 80, altura_tabla_total, fill=False, stroke=True)
 
-    # ========== PIE - FIRMA Y FECHA ==========
+    #  PIE - FIRMA Y FECHA 
     margen_inferior = 40
     c.setFillColor(colors.black)
     c.setFont("Helvetica-Bold", 11)

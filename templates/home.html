@@ -37,7 +37,7 @@
 </head>
 <body style="background-color: #F7F8FC;">
 
-<!-- Navbar -->
+//Navbar 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #21BDED;">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
@@ -55,15 +55,16 @@
 </nav>
 
 <div class="container my-5">
-  <!-- TABS DE NAVEGACIÓN -->
+
+
+  // TABS DE NAVEGACIÓN 
   <div class="mb-4 text-center">
     <button class="nav-tab active" onclick="mostrarTab('liquidaciones')"> Generar Liquidaciones</button>
     <button class="nav-tab" onclick="mostrarTab('empleados')"> Crear Empleados</button>
   </div>
 
-  <!-- ============================================ -->
-  <!-- TAB 1: GENERAR LIQUIDACIONES -->
-  <!-- ============================================ -->
+  // GENERAR LIQUIDACIONES
+
   <div id="tab-liquidaciones" class="tab-content-section active">
     <div class="bg-white rounded p-4 shadow-sm">
       <h2 class="text-center fw-bold mb-4" style="color: #21BDED;"> Generador de Liquidaciones</h2>
@@ -94,9 +95,7 @@
     </div>
   </div>
 
-  <!-- ============================================ -->
-  <!-- TAB 2: CREAR EMPLEADOS -->
-  <!-- ============================================ -->
+  // CREAR EMPLEADOS 
   <div id="tab-empleados" class="tab-content-section">
     <div class="bg-white rounded p-4 shadow-sm">
       <h2 class="text-center fw-bold mb-4" style="color: #21BDED;"> Crear Nuevo Empleado</h2>
@@ -194,7 +193,7 @@
         </form>
       </div>
 
-      <!-- Lista de empleados creados -->
+    // Lista de empleados creados
       <h3 class="mt-5 mb-3" style="color: #21BDED;"> Registro de Empleados</h3>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -222,7 +221,8 @@
   </div>
 </div>
 
-<!-- MODAL PARA GENERAR LIQUIDACIÓN -->
+// MODAL PARA GENERAR LIQUIDACIÓN 
+
 <div class="modal fade" id="modalLiquidacion" tabindex="-1" aria-labelledby="modalLiquidacionLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -274,7 +274,7 @@
   </div>
 </div>
 
-<!-- Alertas -->
+  // Alertas 
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11;">
   <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert">
     <strong> Éxito!</strong> <span id="success-message"></span>
@@ -289,7 +289,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  // ========== INICIALIZAR PÁGINA ==========
+
+
+ //  INICIALIZAR PÁGINA 
   document.addEventListener('DOMContentLoaded', function() {
     console.log(' Página cargada');
     cargarEmpresas();
@@ -298,8 +300,9 @@
     cargarEmpleados();
   });
 
-  // ========== NAVEGACIÓN DE TABS ==========
+  //  NAVEGACIÓN DE TABS 
   function mostrarTab(tabName) {
+
     // Ocultar todos los tabs
     document.querySelectorAll('.tab-content-section').forEach(tab => {
       tab.classList.remove('active');
@@ -318,7 +321,7 @@
     setTimeout(() => cargarEmpleados(), 100);
   }
 
-  // ========== CARGAR DATOS DINÁMICAMENTE ==========
+  // CARGAR DATOS DINÁMICAMENTE 
   function cargarEmpresas() {
     fetch('/api/v1/empleados/data/empresas')
       .then(response => response.json())
@@ -379,7 +382,7 @@
       });
   }
 
-  // ========== CARGAR EMPLEADOS ==========
+  //  CARGAR EMPLEADOS 
   function cargarEmpleados() {
     console.log('Cargando empleados...');
     fetch('/api/v1/empleados/')
@@ -444,7 +447,7 @@
       });
   }
 
-  // ========== VALIDACIONES ==========
+  //  VALIDACIONES 
 
   function validarFormulario() {
     let valido = true;
@@ -509,7 +512,7 @@
     return rutRegex.test(rut);
   }
 
-  // ========== CREAR EMPLEADO ==========
+  //  CREAR EMPLEADO 
   function crearEmpleado() {
     if (!validarFormulario()) return;
 
@@ -558,7 +561,7 @@
     });
   }
 
-  // ========== ABRIR MODAL CON DATOS ==========
+  //  ABRIR MODAL CON DATOS 
   function abrirModalLiquidacion(empleadoId, nombre, rut, tipoContrato) {
     console.log('Abriendo modal para:', empleadoId, nombre);
     document.getElementById('empleado_id').value = empleadoId;
@@ -570,7 +573,7 @@
     document.getElementById('dias_trabajados').value = '';
   }
 
-  // ========== GENERAR LIQUIDACIÓN ==========
+  //  GENERAR LIQUIDACIÓN 
   function generarLiquidacion() {
     const empleadoId = document.getElementById('empleado_id').value;
     const horasExtras = parseFloat(document.getElementById('horas_extras').value);
@@ -639,7 +642,8 @@
     });
   }
 
-  // ========== UTILIDADES ==========
+  //  UTILIDADES 
+
   function limpiarFormulario() {
     document.getElementById('form-crear-empleado').reset();
     document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');

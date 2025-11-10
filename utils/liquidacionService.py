@@ -1,4 +1,4 @@
-# utils/liquidacionService.py - VERSION SIN PRINTS (LIMPIA)
+# utils/liquidacionService.py 
 
 from core.database import get_connection
 from datetime import datetime
@@ -34,7 +34,7 @@ def obtener_datos_empleado(empleado_id: int) -> dict:
             if not result:
                 return None
             
-            # Obtener tasas vigentes de AFP
+    # Obtener tasas vigentes de AFP
             afp_tasa = 10.0
             afp_nombre = "AFP"
             if result['afp_id']:
@@ -51,7 +51,7 @@ def obtener_datos_empleado(empleado_id: int) -> dict:
                     afp_nombre = afp_result['nombre']
                     afp_tasa = float(afp_result['tasa'])
             
-            # Obtener tasas vigentes de Salud
+    # Obtener tasas vigentes de Salud
             salud_tasa = 7.0
             salud_nombre = "Salud"
             if result['salud_id']:
@@ -68,7 +68,7 @@ def obtener_datos_empleado(empleado_id: int) -> dict:
                     salud_nombre = salud_result['nombre']
                     salud_tasa = float(salud_result['tasa'])
             
-            # Obtener tasas vigentes de AFC
+    # Obtener tasas vigentes de AFC
             afc_tasa_trabajador = 0.6
             afc_tasa_empleador = 2.4
             afc_nombre = "AFC"
@@ -113,9 +113,9 @@ def obtener_datos_empleado(empleado_id: int) -> dict:
     finally:
         conn.close()
 
+# CALCULA LA LIQUICACION
 
 def calcular_liquidacion(datos: dict, horas_extra: int = 0, dias_trabajados: int = 30) -> dict:
-    """Calcula la liquidación con la fórmula exacta"""
     
     try:
         # Sueldo proporcional
@@ -162,6 +162,7 @@ def calcular_liquidacion(datos: dict, horas_extra: int = 0, dias_trabajados: int
     except Exception as e:
         raise
 
+# GUARDA LA LIQUICACION EN LA BD
 
 def guardar_liquidacion_en_bd(
     contrato_id: int, periodo: str, mes: int,
@@ -201,7 +202,6 @@ def guardar_liquidacion_en_bd(
 
 
 def obtener_liquidaciones(empleado_id: int) -> list:
-    """Obtiene el historial de liquidaciones de un empleado"""
     
     conn = get_connection()
     if not conn:

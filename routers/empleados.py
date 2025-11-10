@@ -1,4 +1,4 @@
-# routers/empleados.py - ENDPOINTS CORREGIDOS Y FUNCIONABLES
+# routers/empleados.py
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -9,7 +9,7 @@ from datetime import datetime
 router = APIRouter(prefix="/empleados", tags=["empleados"])
 
 
-# ========== MODELOS PYDANTIC ==========
+#  MODELOS PYDANTIC 
 class EmpleadoCreate(BaseModel):
     nombres: str
     apellidos: str
@@ -24,7 +24,7 @@ class EmpleadoCreate(BaseModel):
     sueldo_base: int
 
 
-# ========== ENDPOINTS CRUD ==========
+#  ENDPOINTS CRUD 
 
 @router.post("/crear")
 def crear_empleado(empleado: EmpleadoCreate):
@@ -174,7 +174,7 @@ def obtener_empleado(empleado_id: int):
         conn.close()
 
 
-# ========== ENDPOINTS PARA CARGAS DINÁMICAS ==========
+#  ENDPOINTS PARA CARGAS DINÁMICAS 
 
 @router.get("/data/empresas")
 def obtener_empresas() -> List[dict]:
